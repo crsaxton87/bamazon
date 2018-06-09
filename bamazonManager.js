@@ -63,7 +63,7 @@ function allProducts() {
             tempArr.push(res[i].item_id);
             tempArr.push(res[i].product_name);
             tempArr.push(res[i].department_name);
-            tempArr.push(res[i].price);
+            tempArr.push(res[i].price.toFixed(2));
             tempArr.push(res[i].stock_quantity);
             values.push(tempArr);
         }
@@ -87,7 +87,7 @@ function lowInventory() {
             tempArr.push(res[i].item_id);
             tempArr.push(res[i].product_name);
             tempArr.push(res[i].department_name);
-            tempArr.push(res[i].price);
+            tempArr.push(res[i].price.toFixed(2));
             tempArr.push(res[i].stock_quantity);
             values.push(tempArr);
         }
@@ -110,7 +110,7 @@ function addInventory() {
             tempArr.push(res[i].item_id);
             tempArr.push(res[i].product_name);
             tempArr.push(res[i].department_name);
-            tempArr.push(res[i].price);
+            tempArr.push(res[i].price.toFixed(2));
             tempArr.push(res[i].stock_quantity);
             values.push(tempArr);
         }
@@ -136,7 +136,6 @@ function addInventory() {
                     }
                 }
             ).then(function(answer){
-                console.log('Attempting connection');
                 connection.query(
                     // Select products matching user input
                     "SELECT * FROM products WHERE ?",
@@ -200,7 +199,7 @@ function updatedProduct(item) {
             tempArr.push(res[i].item_id);
             tempArr.push(res[i].product_name);
             tempArr.push(res[i].department_name);
-            tempArr.push(res[i].price);
+            tempArr.push(res[i].price.toFixed(2));
             tempArr.push(res[i].stock_quantity);
             values.push(tempArr);
         }

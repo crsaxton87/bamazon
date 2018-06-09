@@ -20,7 +20,6 @@ var connection = mysql.createConnection({
 // After connection
 connection.connect(function(err) {
     if (err) throw err;
-    console.log('Connected to server');
     // Display Products
     displayProducts();
 });
@@ -34,7 +33,7 @@ function displayProducts() {
             let tempArr = [];
             tempArr.push(res[i].item_id);
             tempArr.push(res[i].product_name);
-            tempArr.push(res[i].price);
+            tempArr.push(res[i].price.toFixed(2));
             values.push(tempArr);
         }
         console.table(['ID', 'PRODUCT NAME', 'PRICE'], values);
@@ -76,7 +75,6 @@ function userQuestions() {
         // Store user inputs in variables
         let id = answer.id;
         let quantity = answer.quantity;
-        console.log(id, quantity);
         // Find product in database by ID
         connection.query(
             "SELECT * FROM products WHERE ?",
@@ -108,7 +106,8 @@ function userQuestions() {
                         ],
                         function(err) {
                             if (err) throw err;
-                            console.log(`\nPurchase successful! Order total: $${price * quantity}\n`);
+                            console.log(`\nPurchase successful! Order total: $${(price * quantity).toFixed(2)}\n`);
+                            updateRevenue(id, price * quantity);
                             displayProducts();
                         }
                     );
@@ -116,4 +115,14 @@ function userQuestions() {
             }
         );
     });
+}
+
+// Update product revenue
+function updateRevenue(id, revenue){
+    connection.query(
+        `UPDATE products SET product_sales=product_sales+${revenue} WHERE item_id=${id}`,
+        function(err) {
+            if (err) throw err;
+        }
+    );
 }
